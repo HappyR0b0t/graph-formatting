@@ -1,15 +1,13 @@
 package main
 
 import (
-	"sort"
-
 	graphformatter "github.com/HappyR0b0t/graph-formatting/pkg"
 )
 
 func main() {
-	interval := "month"
+	interval := "HOUR"
 	structs := []graphformatter.Transaction{}
-	result := []graphformatter.Transaction{}
+	// result := make([]map[int]int64, 0)
 
 	graph := map[int]int64{ 
 		1: 1616026248,
@@ -21,30 +19,31 @@ func main() {
 		7: 1613672577,
 		8: 1615493354,
 		9: 1614849048,
+		10: 1613639545,
+		11: 1610961145,
+		12: 1615453945,
+		13: 1615972345,
+		14: 1615885945,
+		15: 1615799545,
+		16: 1615626745,
+		17: 1616015448,
 	}
 
-	for key, value := range graph{
-		t := graphformatter.NewTransaction(key, value)
-		structs = append(structs, *t)
+	structs = graphformatter.SliceSorter(graphformatter.SliceFiller(structs, graph))
+
+	switch interval {
+	case "MONTH":
+		graphformatter.TimestampToUnixTime(
+			graphformatter.TimeDifferenceMonth(structs))
+	case "WEEK":
+		graphformatter.TimestampToUnixTime(
+			graphformatter.TimeDifferenceWeek(structs))
+	case "DAY":
+		graphformatter.TimestampToUnixTime(
+			graphformatter.TimeDifferenceDay(structs))
+	case "HOUR":
+		graphformatter.TimestampToUnixTime(
+			graphformatter.TimeDifferenceHour(structs))
 	}
 
-	sort.Slice(structs, func(i, j int) bool {
-		return structs[i].Timestamp.After(structs[j].Timestamp)
-	})
-
-	if interval == "month"{
-		graphformatter.TimeDifferenceMonth(structs)
-	}
-
-	if interval == "week"{
-		graphformatter.TimeDifferenceWeek(structs)
-	}
-	
-	if interval == "day"{
-		graphformatter.TimeDifferenceDay(structs)
-	}
-	
-	if interval == "hour"{
-		graphformatter.TimeDifferenceHour(structs)
-	}
 }
