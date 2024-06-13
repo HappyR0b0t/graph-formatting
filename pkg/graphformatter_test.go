@@ -7,7 +7,6 @@ import (
 )
 
 func TestNewTransaction(t *testing.T) {
-	// Test cases
 	tests := []struct {
 		name         string
 		value        int
@@ -18,7 +17,7 @@ func TestNewTransaction(t *testing.T) {
 		{
 			name:         "Valid transaction",
 			value:        100,
-			timestamp:    1672531200, // Unix timestamp for 2023-01-01 00:00:00 UTC
+			timestamp:    1672531200,
 			expected:     &Transaction{Value: 100, Timestamp: time.Unix(1672531200, 0)},
 			expectedTime: time.Unix(1672531200, 0),
 		},
@@ -42,12 +41,10 @@ func TestNewTransaction(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			result := NewTransaction(tt.value, tt.timestamp)
 			
-			// Check value
 			if result.Value != tt.expected.Value {
 				t.Errorf("NewTransaction().Value = %d, want %d", result.Value, tt.expected.Value)
 			}
 			
-			// Check timestamp
 			if !result.Timestamp.Equal(tt.expectedTime) {
 				t.Errorf("NewTransaction().Timestamp = %v, want %v", result.Timestamp, tt.expectedTime)
 			}
@@ -55,7 +52,7 @@ func TestNewTransaction(t *testing.T) {
 	}
 }
 func TestTimeDifferenceMonth(t *testing.T) {
-	// Test cases
+
 	tests := []struct {
 		name     string
 		input    []Transaction
@@ -64,14 +61,14 @@ func TestTimeDifferenceMonth(t *testing.T) {
 		{
 			name: "Single pair one month apart",
 			input: []Transaction{
-				{Value: 100, Timestamp: time.Date(2023, 3, 1, 12, 0, 0, 0, time.UTC)}, // January 1, 2023
-				{Value: 200, Timestamp: time.Date(2023, 2, 1, 13, 0, 0, 0, time.UTC)}, // February 1, 2023
-				{Value: 300, Timestamp: time.Date(2023, 1, 1, 14, 0, 0, 0, time.UTC)}, // March 1, 2023
+				{Value: 100, Timestamp: time.Date(2023, 3, 1, 12, 0, 0, 0, time.UTC)},
+				{Value: 200, Timestamp: time.Date(2023, 2, 1, 13, 0, 0, 0, time.UTC)},
+				{Value: 300, Timestamp: time.Date(2023, 1, 1, 14, 0, 0, 0, time.UTC)},
 			},
 			expected: []Transaction{
-				{Value: 100, Timestamp: time.Date(2023, 3, 1, 0, 0, 0, 0, time.UTC)},  // Rounded to January 1, 2023, midnight
-				{Value: 200, Timestamp: time.Date(2023, 2, 1, 0, 0, 0, 0, time.UTC)},  // Rounded to February 1, 2023, midnight
-				{Value: 300, Timestamp: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)},  // Rounded to March 1, 2023, midnight
+				{Value: 100, Timestamp: time.Date(2023, 3, 1, 0, 0, 0, 0, time.UTC)},
+				{Value: 200, Timestamp: time.Date(2023, 2, 1, 0, 0, 0, 0, time.UTC)},
+				{Value: 300, Timestamp: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)},
 			},
 		},
 		{
@@ -91,9 +88,9 @@ func TestTimeDifferenceMonth(t *testing.T) {
 				{Value: 400, Timestamp: time.Date(2023, 1, 1, 12, 0, 0, 0, time.UTC)},
 			},
 			expected: []Transaction{
-				{Value: 100, Timestamp: time.Date(2023, 3, 1, 0, 0, 0, 0, time.UTC)},  // Rounded to January 1, 2023, midnight
-				{Value: 200, Timestamp: time.Date(2023, 2, 1, 0, 0, 0, 0, time.UTC)},  // Rounded to February 1, 2023, midnight
-				{Value: 400, Timestamp: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)},  // Rounded to March 1, 2023, midnight
+				{Value: 100, Timestamp: time.Date(2023, 3, 1, 0, 0, 0, 0, time.UTC)},
+				{Value: 200, Timestamp: time.Date(2023, 2, 1, 0, 0, 0, 0, time.UTC)},
+				{Value: 400, Timestamp: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)},
 			},
 		},
 	}
@@ -143,9 +140,9 @@ func TestTimeDifferenceWeek(t *testing.T) {
 		{
 			name: "No pairs one week apart",
 			input: []Transaction{
-				{Value: 100, Timestamp: time.Date(2023, 1, 1, 12, 0, 0, 0, time.UTC)},   // January 1, 2023
-				{Value: 200, Timestamp: time.Date(2023, 1, 10, 12, 0, 0, 0, time.UTC)},  // January 10, 2023
-				{Value: 300, Timestamp: time.Date(2023, 1, 15, 12, 0, 0, 0, time.UTC)},  // January 15, 2023
+				{Value: 100, Timestamp: time.Date(2023, 1, 1, 12, 0, 0, 0, time.UTC)},
+				{Value: 200, Timestamp: time.Date(2023, 1, 10, 12, 0, 0, 0, time.UTC)},
+				{Value: 300, Timestamp: time.Date(2023, 1, 15, 12, 0, 0, 0, time.UTC)},
 			},
 			expected: []Transaction{},
 		},
@@ -224,12 +221,12 @@ func TestTimeDifferenceHour(t *testing.T) {
 		{
 			name: "Single pair one hour apart",
 			input: []Transaction{
-				{Value: 100, Timestamp: time.Date(2023, 1, 1, 12, 0, 0, 0, time.UTC)},   // January 1, 2023 12:00 PM
-				{Value: 200, Timestamp: time.Date(2023, 1, 1, 11, 0, 0, 0, time.UTC)},   // January 1, 2023 11:00 AM
+				{Value: 100, Timestamp: time.Date(2023, 1, 1, 12, 0, 0, 0, time.UTC)},
+				{Value: 200, Timestamp: time.Date(2023, 1, 1, 11, 0, 0, 0, time.UTC)},
 			},
 			expected: []Transaction{
-				{Value: 100, Timestamp: time.Date(2023, 1, 1, 13, 0, 0, 0, time.UTC)},   // Rounded to January 1, 2023 1:00 PM
-				{Value: 200, Timestamp: time.Date(2023, 1, 1, 12, 0, 0, 0, time.UTC)},   // Rounded to January 1, 2023 12:00 PM
+				{Value: 100, Timestamp: time.Date(2023, 1, 1, 13, 0, 0, 0, time.UTC)},
+				{Value: 200, Timestamp: time.Date(2023, 1, 1, 12, 0, 0, 0, time.UTC)},
 			},
 		},
 		{

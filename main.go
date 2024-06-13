@@ -7,7 +7,6 @@ import (
 func main() {
 	interval := "HOUR"
 	structs := []graphformatter.Transaction{}
-	// result := make([]map[int]int64, 0)
 
 	graph := map[int]int64{ 
 		1: 1616026248,

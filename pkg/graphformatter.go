@@ -1,7 +1,6 @@
 package graphformatter
 
 import (
-	"fmt"
 	"sort"
 	"time"
 )
@@ -18,7 +17,6 @@ func NewTransaction(Value int, Timestamp int64) *Transaction {
 
 func TimeDifferenceMonth(structs []Transaction) []Transaction {
 	result := []Transaction{}
-	
 	for i := 0; i < len(structs); i++ {
 		for j := i + 1; j < len(structs); j++ {
 			t1 := structs[i].Timestamp
@@ -68,7 +66,6 @@ func TimeDifferenceWeek(structs []Transaction) []Transaction {
 			}		
 		}
 	}
-	fmt.Print(result)
 	return result
 }
 
@@ -160,9 +157,6 @@ func SliceSorter(structs []Transaction) []Transaction {
 }
 
 func SliceFiller(structs []Transaction, graph map[int]int64) []Transaction {
-	// if len(structs) == 0 {
-	// 	return structs
-	// }
 	for key, value := range graph{
 		t := NewTransaction(key, value)
 		structs = append(structs, *t)
